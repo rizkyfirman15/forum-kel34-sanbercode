@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Answer;
+use App\Question;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnswerController extends Controller
 {
@@ -25,9 +27,11 @@ class AnswerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $question = Question::where('id', $id)->first();
+
+        return view('answer.create', compact('question'));
     }
 
     /**
@@ -38,7 +42,13 @@ class AnswerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Answer::create([
+            'isi' => $request['isi'],
+            'question_id' => $request['question_id'],
+            'user_id' => Auth::user()->id
+        ]);
+
+        return redirect('/answer/');
     }
 
     /**
@@ -49,11 +59,15 @@ class AnswerController extends Controller
      */
     public function show($id)
     {
-        $answers = Answer::where('user_id', $id)->get();
-        $user = User::where('id', $id)->first();
-        // dd($user);
+        $answer = Answer::find($id);
+        $answer->user->poin_reputasi = 0;
+        if ($answer->vote == 1) {
+            $answer->user->poin_reputasi += 10;
+        } else if ($answer->vote == 2) {
+            $answer->user->poin_reputasi--;
+        }
 
-        return view('answer.show', compact('answers', 'user'));
+        return view('answer.show', compact('answer'));
     }
 
     /**
@@ -64,7 +78,9 @@ class AnswerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $answer = Answer::find($id);
+
+        return view('answer.edit', compact('answer'));
     }
 
     /**
@@ -76,7 +92,38 @@ class AnswerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Answer::where('id', $id)->update([
+            'isi' => $request['isi']
+        ]);
+
+        return redirect('/answer/');
+    }
+
+    public function vote(Request $request, $id)
+    {
+        $answer = Answer::find($id);
+
+        if ($request['vote'] == 1) {
+            Answer::where('id', $id)->update([
+                'vote' => ($answer['vote'] + 1)
+            ]);
+
+            User::where('id', $answer['user_id'])->update([
+                'poin_reputasi' => ($answer->user['poin_reputasi'] + 10)
+            ]);
+        } else if ($request['vote'] == 2 && $answer->user['poin_reputasi'] >= 15) {
+            Answer::where('id', $id)->update([
+                'vote' => ($answer['vote'] - 1)
+            ]);
+
+            User::where('id', $answer['user_id'])->update([
+                'poin_reputasi' => ($answer->user['poin_reputasi'] - 1)
+            ]);
+        }
+
+        // dd($answer->user['poin_reputasi']);
+
+        return redirect('/answer/' . $id);
     }
 
     /**
@@ -87,6 +134,8 @@ class AnswerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Answer::destroy($id);
+
+        return redirect('/answer/');
     }
 }
