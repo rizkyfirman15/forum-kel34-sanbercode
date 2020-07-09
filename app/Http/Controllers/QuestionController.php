@@ -38,6 +38,7 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         //
+
     }
 
     /**
@@ -49,6 +50,7 @@ class QuestionController extends Controller
     public function show(Question $question)
     {
         //
+        return view('question.show');
     }
 
     /**
