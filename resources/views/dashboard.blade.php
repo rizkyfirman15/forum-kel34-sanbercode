@@ -43,6 +43,14 @@
                             sequi fuga quia quaerat cum, obcaecati hic, molestias minima iste voluptates.
                         </p>
                     </div>
+                    <div class="mb-4 ml-3" style="text-align: left!important;">
+                            <span class="badge badge-primary">JavaScript</span>
+                            <span class="badge badge-primary">Android</span>
+                            <span class="badge badge-primary">PHP</span>
+                            <span class="badge badge-primary">Node.js</span>
+                            <span class="badge badge-primary">Ruby</span>
+                            <span class="badge badge-primary">Paython</span>
+                        </div>
                     <div class="card-footer">
                         <a href="#" class="card-link" style="color: green;"><i class="fa fa-arrow-up"></i> UpVote</a>
                         <a href="#" class="card-link" style="color: red;"><i class="fa fa-arrow-down"></i> DownVote</a>
@@ -89,6 +97,14 @@
                             sequi fuga quia quaerat cum, obcaecati hic, molestias minima iste voluptates.
                         </p>
                     </div>
+                    <div class="mb-4 ml-3" style="text-align: left!important;">
+                            <span class="badge badge-primary">JavaScript</span>
+                            <span class="badge badge-primary">Android</span>
+                            <span class="badge badge-primary">PHP</span>
+                            <span class="badge badge-primary">Node.js</span>
+                            <span class="badge badge-primary">Ruby</span>
+                            <span class="badge badge-primary">Paython</span>
+                        </div>
                     <div class="card-footer">
                         <a href="#" class="card-link" style="color: green;"><i class="fa fa-arrow-up"></i> UpVote</a>
                         <a href="#" class="card-link" style="color: red;"><i class="fa fa-arrow-down"></i> DownVote</a>
