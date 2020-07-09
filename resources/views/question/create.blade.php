@@ -5,7 +5,7 @@
 @section ('content')
 <h1 class="h3 mb-4 text-gray-800">Halaman Buat Pertanyaan</h1>
 <div class="container pt-4 pl-4 pr-4">
-<form action="/questions" method='POST'>
+<form action="/question" method='POST'>
 @csrf
   <div class="form-group">
     <label for="judul">Judul Pertanyaan</label>
@@ -16,6 +16,11 @@
   <!-- <textarea class="form-control" name="isi" placeholder="Tuliskan pertanyaan anda di sini !"rows="5" id="isi"></textarea> -->
   <textarea name="isi" class="form-control my-editor">{!! old('isi', $isi ?? '') !!}</textarea>
 </div>
+<div class="form-group">
+    <label for="tag">Tag Pertanyaan</label>
+    <input type="text" class="form-control" name="tag" required id="tag">
+    <small id="emailHelp" class="form-text text-muted">Gunakan pemisah koma untuk memasukkan tag</small>
+  </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 </div>
