@@ -19,7 +19,7 @@
 
   <!-- Custom styles for this template-->
   <link href="{{asset('/sbadmin2/css/sb-admin-2.min.css')}}" rel="stylesheet">
-
+  @stack('script-head')
 </head>
 
 <body id="page-top">

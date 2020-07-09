@@ -6,6 +6,7 @@ Route::get('/', function () {
 Route::group(['middleware'=>'auth'],function(){
 
 Route::get('/dashboard','QuestionController@index');
+Route::get('/question/create','QuestionController@create');
 });
 Auth::routes();
 
