@@ -1,5 +1,10 @@
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-<marquee behavior="" direction="">Forum Tanya Jawab Pemrograman</marquee>
+  <nav class="navbar navbar-light">
+      <form class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+      </form>
+  </nav>
 <!-- Sidebar Toggle (Topbar) -->
 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
   <i class="fa fa-bars"></i>
