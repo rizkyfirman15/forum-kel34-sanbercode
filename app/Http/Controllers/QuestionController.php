@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\AnswerComment;
 use App\Question;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,11 @@ class QuestionController extends Controller
     public function index()
     {
         //
-        return view('dashboard');
+        $questions = Question::all();
+        // dd($questions);
+        // $tags= explode(',',$questions->tag);
+        // dd($tags);
+        return view('dashboard',compact('questions'));
     }
 
     /**
@@ -49,8 +53,9 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        //
-        return view('question.show');
+        $comments=AnswerComment::find($question);
+        // dd($comments);
+        return view('question.show',compact('question','comments'));
     }
 
     /**
@@ -74,6 +79,13 @@ class QuestionController extends Controller
     public function update(Request $request, Question $question)
     {
         //
+        Question::where('id',$question->id)
+                  ->update([
+                      'judul' => $request->judul,
+                      'isi_pertanyaan' => $request->isi,
+                      'tag' => $request->tag
+                  ]);
+                  return redirect('/dashboard')->with('status','Pertanyaan Berhasil Diperbaharui');
     }
 
     /**
@@ -85,5 +97,11 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         //
+        // dd($question);
+        $destroy=Question::destroy($question->id);
+        if($destroy){
+        return redirect('/dashboard')->with('status','Pertanyaan Berhasil Dihapus');
+        }
+        dd($destroy);
     }
 }

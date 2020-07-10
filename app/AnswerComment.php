@@ -4,8 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class AnswerComment extends Model
 {
+    //
     protected $table = 'question_comments';
     // blacklist
     protected $guarded = [];
@@ -14,6 +15,9 @@ class Comment extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+    public function question(){
+        return $this->belongsTo('App\Question');
     }
     // answer
     public function answer()

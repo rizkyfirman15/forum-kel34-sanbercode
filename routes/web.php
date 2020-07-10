@@ -9,8 +9,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/question', 'QuestionController@store');
     Route::get('/dashboard', 'QuestionController@index');
     Route::get('/question/create', 'QuestionController@create');
-    Route::post('/question', 'QuestionController@store');
-    Route::get('/question/1', 'QuestionController@show');
+    Route::put('/question/{question}','QuestionController@update');
+    Route::get('/question/{question}', 'QuestionController@show');
+    Route::delete('/question/{question}','QuestionController@destroy');
+
 });
 
 Auth::routes();
