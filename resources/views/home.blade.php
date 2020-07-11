@@ -81,7 +81,9 @@
                                                                 ->select(DB::raw('nama_tag'))
                                                                 ->where('id', $tag_id->id)->get();
                                                     ?>
-                                                    <button type="button" class="btn btn-success btn-sm">{{$tag_name[0]->nama_tag}}</button>
+                                                    @foreach ($tag_name as $tag)
+                                                    <button type="button" class="btn btn-success btn-sm">{{$tag->nama_tag}}</button>
+                                                    @endforeach 
                                                 @endforeach
                                             </div>
                                         </div>
