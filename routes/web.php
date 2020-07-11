@@ -1,19 +1,19 @@
 <?php
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/dashboard', 'QuestionController@index');
-    Route::get('/question/create', 'QuestionController@create');
-    Route::post('/question', 'QuestionController@store');
-    Route::get('/dashboard', 'QuestionController@index');
-    Route::get('/question/create', 'QuestionController@create');
-    Route::put('/question/{question}','QuestionController@update');
-    Route::get('/question/{question}', 'QuestionController@show');
-    Route::delete('/question/{question}','QuestionController@destroy');
-    Route::post('/question-comment', 'QuestionController@storecomment');
-    Route::put('/question-comment/{answercomment}','QuestionController@updatecomment');
-    Route::delete('/question-comment/{answercomment}','QuestionController@destroycomment');
+// Route::group(['middleware' => 'auth'], function () {
+//     Route::get('/dashboard', 'QuestionController@index');
+//     Route::get('/question/create', 'QuestionController@create');
+//     Route::post('/question', 'QuestionController@store');
+//     Route::get('/dashboard', 'QuestionController@index');
+//     Route::get('/question/create', 'QuestionController@create');
+//     Route::put('/question/{question}','QuestionController@update');
+//     Route::get('/question/{question}', 'QuestionController@show');
+//     Route::delete('/question/{question}','QuestionController@destroy');
+//     Route::post('/question-comment', 'QuestionController@storecomment');
+//     Route::put('/question-comment/{answercomment}','QuestionController@updatecomment');
+//     Route::delete('/question-comment/{answercomment}','QuestionController@destroycomment');
 
-});
+// });
 /*
 |--------------------------------------------------------------------------
 | Web Routes
