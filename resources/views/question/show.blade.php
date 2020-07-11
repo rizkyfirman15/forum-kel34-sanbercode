@@ -3,7 +3,7 @@
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 @endpush
 @section('content')
-<h1 class="h3 mb-4 text-gray-800">{{$question->judul}}</h1>
+<h1 class="h3 mb-4 text-gray-800">{{$pertanyaan->judul}}</h1>
 
 <div class="container mb-4">
     <center>
@@ -17,19 +17,19 @@
                             <img class="rounded-circle" width="45" src="{{asset('images/user.jpg')}}" alt="">
                         </div>
                         <div class="ml-2 ">
-                            <div class="h5 m-0 ">{{$question->user->name}}</div>
-                            <div class="h7 text-muted">{{$question->user->email}}</div>
+                            <div class="h5 m-0 ">{{$pertanyaan->user->name}}</div>
+                            <div class="h7 text-muted">{{$pertanyaan->user->email}}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card-body" style=" text-align: left!important;">
                 <p class="card-text">
-                    {!!$question->isi_pertanyaan!!}
+                    {!!$pertanyaan->isi!!}
                 </p>
             </div>
             <div class="mb-4 ml-3" style="text-align: left!important;">
-                <span class="badge badge-primary">{{$question->tag}}</span>
+                <span class="badge badge-primary">TAGS ARE HERE</span>
             </div>
             <div class="card-footer">
                 <a href="#" class="card-link" style="color: green;"><i class="fa fa-arrow-up"></i> UpVote</a>
@@ -49,7 +49,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="/question/1" method='POST'>
+                                <form action="" method='POST'>
                                     @csrf
                                     <div class="form-group">
                                         <label for="comment">Jawaban</label>
@@ -82,15 +82,14 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="/question-comment/" method='POST'>
+                                <form action="/pertanyaan-komentar/" method='POST'>
                                     @csrf
-                                    <input type="hidden"name="question_id" value="{{$question->id}}">
+                                    <input type="hidden"name="pertanyaan_id" value="{{$pertanyaan->id}}">
                                     <input type="hidden"name="user_id" value="{{Auth::user()->id}}">
-                                    <input type="hidden"name="vote" value="0">
                                     <div class="form-group">
                                         <label for="comment">Komentar</label>
                                         <!-- <textarea class="form-control" name="isi" placeholder="Tuliskan pertanyaan anda di sini !"rows="5" id="isi"></textarea> -->
-                                        <textarea name="komentar" class="form-control my-editor">{!! old('isi', $isi ?? '') !!}</textarea>
+                                        <textarea name="isi" class="form-control my-editor">{!! old('isi', $isi ?? '') !!}</textarea>
                                     </div>
 
                             </div>
@@ -116,9 +115,9 @@
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-ellipsis-h"></i></button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
                         <div class="h6 dropdown-header">Aksi</div>
-                        <!-- Button modal edit komentar pertanyaan -->
+                        <!-- Button delete komentar pertanyaan -->
                         <a class="dropdown-item" data-toggle="modal" data-target="#editkomentarpertanyaan{{$comment->id}}" href="#">Edit</a>
-                        <form action="/question-comment/{{$comment->id}}" method="POST">
+                        <form action="/pertanyaan-komentar/{{$comment->id}}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-link dropdown-item" role="button">Hapus</button>
@@ -135,16 +134,16 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="/question-comment/{{$comment->id}}" method='POST'>
+                                    <form action="/pertanyaan-komentar/{{$comment->id}}" method='POST'>
                                         @csrf
                                         @method('put')
-                                        <input type="hidden"name="question_id" value="{{$comment->question_id}}">
+                                        <input type="hidden"name="pertanyaan_id" value="{{$comment->pertanyaan_id}}">
                                         <input type="hidden"name="user_id" value="{{Auth::user()->id}}">
                                         <input type="hidden"name="vote" value="0">
                                         <div class="form-group">
                                             <label for="comment">Komentar</label>
                                             <!-- <textarea class="form-control" name="isi" placeholder="Tuliskan pertanyaan anda di sini !"rows="5" id="isi"></textarea> -->
-                                            <textarea name="komentar" class="form-control my-editor">{!! old('isi', $isi ?? '') !!} {!!$comment->komentar!!}</textarea>
+                                            <textarea name="isi" class="form-control my-editor">{!! old('isi', $isi ?? '') !!} {!!$comment->isi!!}</textarea>
                                         </div>
                                 </div>
                                 <div class="modal-footer">
@@ -163,40 +162,11 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{$comment->user->name}}</h5>
-                <p class="card-text">{!!$comment->komentar!!}</p>
+                <p class="card-text">{!!$comment->isi!!}</p>
                 <!--Button modal  -->
-                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#balaskomentarpertanyaan1">
+                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#komentarpertanyaan1">
                     <i class="fa fa-reply"> Balas</i>
                 </button>
-                <!-- Modal Beri Komentar pertanyaan-->
-                <div class="modal fade" id="balaskomentarpertanyaan1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Balas Komentar</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="/question/1" method='POST'>
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="comment">Komentar</label>
-                                        <!-- <textarea class="form-control" name="isi" placeholder="Tuliskan pertanyaan anda di sini !"rows="5" id="isi"></textarea> -->
-                                        <textarea name="isi" class="form-control my-editor">{!! old('isi', $isi ?? '') !!}</textarea>
-                                    </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Tutup Modal -->
             </div>
         </div>
         <!--End comment  -->
@@ -235,7 +205,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="/question/1" method='POST'>
+                                            <form action="/pertanyaan/1" method='POST'>
                                                 @csrf
                                                 <div class="form-group">
                                                     <label for="comment">Jawaban</label>
@@ -289,7 +259,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="/question/1" method='POST'>
+                                <form action="/pertanyaan/1" method='POST'>
                                     @csrf
                                     <div class="form-group">
                                         <label for="comment">Komentar</label>
@@ -333,7 +303,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="/question/1" method='POST'>
+                                    <form action="/pertanyaan/1" method='POST'>
                                         @csrf
                                         <div class="form-group">
                                             <label for="comment">Komentar</label>
@@ -370,7 +340,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="/question/1" method='POST'>
+                                <form action="/pertanyaan/1" method='POST'>
                                     @csrf
                                     <div class="form-group">
                                         <label for="comment">Komentar</label>

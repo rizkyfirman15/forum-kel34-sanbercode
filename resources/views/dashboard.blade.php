@@ -12,7 +12,7 @@
             {{ session('status') }}
         </div>
         @endif
-        @foreach ($questions as $question)
+        @foreach ($pertanyaan as $key)
         <!-- Post -->
         </br>
         <div class="card gedf-card">
@@ -23,26 +23,26 @@
                             <img class="rounded-circle" width="45" src="{{asset('images/user.jpg')}}" alt="">
                         </div>
                         <div class="ml-2 ">
-                            <div class="h5 m-0 ">{{$question->user->name}}</div>
-                            <div class="h7 text-muted">{{$question->user->email}}</div>
+                            <div class="h5 m-0 ">{{$key->user->name}}</div>
+                            <div class="h7 text-muted">{{$key->user->email}}</div>
                         </div>
                     </div>
-                    @if ($question->user_id == Auth::user()->id)
+                    @if ($key->user_id == Auth::user()->id)
                     <!-- Dropdown menu -->
                     <div class="dropdown" style="text-align:right;">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-ellipsis-h"></i></button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
                             <div class="h6 dropdown-header">Aksi</div>
                             <!-- Button modal edit jawaban -->
-                            <a class="dropdown-item" data-toggle="modal" data-target="#editjawaban{{$question->id}}" href="#">Edit</a>
-                            <form action="/question/{{$question->id}}" method="POST">
+                            <a class="dropdown-item" data-toggle="modal" data-target="#editjawaban{{$key->id}}" href="#">Edit</a>
+                            <form action="/pertanyaan/{{$key->id}}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-link dropdown-item" role="button">Hapus</button>
                             </form>
                         </div>
                         <!-- Modal Edit jawaban-->
-                        <div class="modal fade" style="text-align:center;" id="editjawaban{{$question->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" style="text-align:center;" id="editjawaban{{$key->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -52,21 +52,21 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="/question/{{$question->id}}" method='POST'>
+                                        <form action="/pertanyaan/{{$key->id}}" method='POST'>
                                             @csrf
                                             @method('put')
                                             <div class="form-group">
                                                 <label for="judul">Judul Pertanyaan</label>
-                                                <input type="text" name="judul" class="form-control" value="{{$question->judul}}" placeholder="" id="judul">
+                                                <input type="text" name="judul" class="form-control" value="{{$key->judul}}" placeholder="" id="judul">
                                             </div>
                                             <div class="form-group">
                                                 <label for="comment">Pertanyaan</label>
                                                 <!-- <textarea class="form-control" name="isi" placeholder="Tuliskan pertanyaan anda di sini !"rows="5" id="isi"></textarea> -->
-                                                <textarea name="isi" class="form-control my-editor">{!! old('isi', $isi ?? '') !!} {{$question->isi_pertanyaan}}</textarea>
+                                                <textarea name="isi" class="form-control my-editor">{!! old('isi', $isi ?? '') !!} {{$key->isi}}</textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label for="tag">Tag Pertanyaan</label>
-                                                <input type="text" class="form-control" value="{{$question->tag}}" name="tag" required id="tag">
+                                                <input type="text" class="form-control" value="" name="tag" required id="tag">
                                                 <small id="emailHelp" class="form-text text-muted">Gunakan pemisah koma untuk memasukkan tag</small>
                                             </div>
                                     </div>
@@ -87,20 +87,20 @@
                 </div>
             </div>
             <div class="card-body" style=" text-align: left!important;">
-                <a class="card-link" href="question/{{$question->id}}">
-                    <h5 class="card-title">{{$question->judul}}</h5>
+                <a class="card-link" href="pertanyaan/{{$key->id}}">
+                    <h5 class="card-title">{{$key->judul}}</h5>
                 </a>
                 <p class="card-text">
-                    {!!$question->isi_pertanyaan!!}
+                    {!!$key->isi!!}
                 </p>
             </div>
             <div class="mb-4 ml-3" style="text-align: left!important;">
-                <span class="badge badge-primary">{{$question->tag}}</span>
+                <span class="badge badge-primary">TAG</span>
             </div>
             <div class="card-footer">
                 <a href="#" class="card-link" style="color: green;"><i class="fa fa-arrow-up"></i> UpVote</a>
                 <a href="#" class="card-link" style="color: red;"><i class="fa fa-arrow-down"></i> DownVote</a>
-                <a href="question/{{$question->id}}" class="card-link"><i class="fa fa-lightbulb-o" style="color:#000;"> Beri Jawaban</i> </a>
+                <a href="pertanyaan/{{$key->id}}" class="card-link"><i class="fa fa-lightbulb-o" style="color:#000;"> Beri Jawaban</i> </a>
 
             </div>
         </div>

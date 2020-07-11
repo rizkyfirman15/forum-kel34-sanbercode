@@ -21,5 +21,9 @@ class Pertanyaan extends Model
     public function komen_tanya(){
         return $this->hasMany('App\Komen_Tanya');
     }
+    // ambil nama user di pertanyaan
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
 
 }
