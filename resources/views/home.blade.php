@@ -89,7 +89,7 @@
                                         </div>
                                     </div>
                                     
-                                    <a href="{{url('/pertanyaan/'. $item->id. '/detail')}}" class="btn btn-success mt-3" style="float: right"><i class="fa fa-eye"></i> Detail</a>
+                                    <a href="{{url('/pertanyaan/'. $item->id. '/detail')}}" class="btn btn-primary btn-sm mt-3" style="float: right"><i class="fa fa-eye"></i> Detail</a>
                                 </div>
                             </div>
                             @endforeach

@@ -56,7 +56,7 @@ class UserController extends Controller
             $tanya->tag()->attach($tag->id);
         }
 
-        return redirect('/home');
+        return redirect('/home')->with('dashboard');
     }
 
     public function vote_tanya($pertanyaan_id, $user_id, $vote)
@@ -129,7 +129,7 @@ class UserController extends Controller
             }
         }
 
-        return redirect('/home');
+        return redirect('dashboard')->with('/home');
     }
 
     public function vote_jawab($jawaban_id, $user_id, $vote)
@@ -201,7 +201,7 @@ class UserController extends Controller
             }
         }
 
-        return redirect('/home');
+        return redirect('dashboard')->with('/home');
     }
 }
 

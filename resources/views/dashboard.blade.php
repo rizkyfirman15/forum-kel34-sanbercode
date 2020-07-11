@@ -1,11 +1,31 @@
+<?php 
+
+    use Illuminate\Support\Facades\Auth;
+    use \App\Pertanyaan_Tag; 
+    use \App\Tag;
+    use \App\User;
+    use \App\Vote_Pertanyaan;
+    use \App\Pertanyaan;
+    use \App\Jawaban;
+    use Illuminate\Support\Facades\DB;
+    $user = Auth::user(); 
+
+?>
+
 @extends('adminlte.master')
 @push('script-head')
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 @endpush
 @section('content')
 <h1 class="h3 mb-4 text-gray-800">Halaman Diskusi</h1>
+<div class="container">
+        <button class="btn btn-outline-primary">
+            <span class="card-text"> Point Reputasi: </span>
+            <span class="text-center ml-1" style="color: darkslateblue"><b>{{$user->reputasi}}</b></span>
+        </button>
+    </div>
 
-<div class="container mb-4">
+<div class="container mb-4 mt-4">
     <center>
         @if (session('status'))
         <div class="alert alert-success">
@@ -65,10 +85,9 @@
                                                 <textarea name="isi" class="form-control my-editor">{!! old('isi', $isi ?? '') !!} {{$key->isi}}</textarea>
                                             </div>
                                             <div class="form-group">
-                                                <label for="tag">Tag Pertanyaan</label>
-                                                <input type="text" class="form-control" value="" name="tag" required id="tag">
-                                                <small id="emailHelp" class="form-text text-muted">Gunakan pemisah koma untuk memasukkan tag</small>
-                                            </div>
+                                                <label for="judul"><b>Tag</b></label>
+                                                <input type="text" name="tag" class="form-control" placeholder="ex: javascript,laravel,..." size="20" required>
+                                                </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -95,12 +114,40 @@
                 </p>
             </div>
             <div class="mb-4 ml-3" style="text-align: left!important;">
-                <span class="badge badge-primary">TAG</span>
+                <span>
+                    <?php
+                                                
+                    $tag = Pertanyaan_Tag::where('pertanyaan_id', $key->id)
+                                            ->get();
+                ?>
+                @foreach ($tag as $tag_id)
+                    <?php
+                        $tag_name = DB::table('tag')
+                                ->select(DB::raw('nama_tag'))
+                                ->where('id', $tag_id->id)->get();
+                    ?>
+                    <button type="button" class="btn btn-success btn-sm">
+                        BUG
+                    </button>
+                @endforeach
+                </span>
             </div>
             <div class="card-footer">
-                <a href="#" class="card-link" style="color: green;"><i class="fa fa-arrow-up"></i> UpVote</a>
-                <a href="#" class="card-link" style="color: red;"><i class="fa fa-arrow-down"></i> DownVote</a>
-                <a href="pertanyaan/{{$key->id}}" class="card-link"><i class="fa fa-lightbulb-o" style="color:#000;"> Beri Jawaban</i> </a>
+                <a href="{{url('user/vote-tanya/' . $key->id . '/' . Auth::id() . '/up')}}" class="card-link" style="color: green;"><i class="fa fa-arrow-up"></i> UpVote</a>
+                <a href="#" class="btn btn-secondary btn-sm">
+                    <?php
+                        
+                        $up_vote = DB::table('vote_pertanyaan')->where(['pertanyaan_id'=>$key->id, 'up_down'=>true])
+                                ->count();
+                        $down_vote = DB::table('vote_pertanyaan')->where(['pertanyaan_id'=>$key->id, 'up_down'=>false])
+                                ->count();
+                                
+                        echo $up_vote - $down_vote;
+
+                    ?>
+                </a>
+                <a href="{{url('user/vote-tanya/' . $key->id . '/' . Auth::id() . '/down')}}" class="card-link" style="color: red;"><i class="fa fa-arrow-down"></i> DownVote</a>
+                <a href="#" class="card-link"><i class="fa fa-lightbulb-o" style="color:#000;"> Beri Jawaban</i> </a>
 
             </div>
         </div>

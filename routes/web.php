@@ -48,19 +48,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/jawab/{pertanyaan_id}', 'ForumController@jawab');
     Route::post('/jawab', 'ForumController@jawabcreate');
     // Dashboard
-    Route::get('dashboard','ForumController@dashboard');
+    Route::get('dashboard', 'ForumController@dashboard');
     // Edit Pertanyaan dashboard
-    Route::put('/pertanyaan/{pertanyaan}','ForumController@dashboardupdate');
+    Route::put('/pertanyaan/{pertanyaan}', 'ForumController@dashboardupdate');
     // Delete pertanyaan dashboard
-    Route::delete('/pertanyaan/{pertanyaan}','ForumController@dashboarddestroy');
+    Route::delete('/pertanyaan/{pertanyaan}', 'ForumController@dashboarddestroy');
     // Show detail pertanyaan dari dashboard
     Route::get('/pertanyaan/{pertanyaan}', 'ForumController@dashboardshow');
     // Store komentar pertanyaan
-    Route::post('pertanyaan-komentar/','ForumController@storepertanyaankomentar');
+    Route::post('pertanyaan-komentar/', 'ForumController@storepertanyaankomentar');
     // Delete Komentar Pertanyaan
-    Route::delete('pertanyaan-komentar/{komen_tanya}','ForumController@destroypertanyaankomentar');
+    Route::delete('pertanyaan-komentar/{komen_tanya}', 'ForumController@destroypertanyaankomentar');
     // Update Komentar pertanyaan
-    Route::put('pertanyaan-komentar/{komen_tanya}','ForumController@updatepertanyaankomentar');
+    Route::put('pertanyaan-komentar/{komen_tanya}', 'ForumController@updatepertanyaankomentar');
 });
 
 Route::get('/user/komentar/comment', 'UserController@buat_komen');
