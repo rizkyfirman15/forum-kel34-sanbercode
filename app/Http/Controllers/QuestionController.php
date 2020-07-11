@@ -53,7 +53,7 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        $comments=AnswerComment::find($question);
+        $comments=AnswerComment::where('question_id','1')->get();
         // dd($comments);
         return view('question.show',compact('question','comments'));
     }
@@ -104,4 +104,40 @@ class QuestionController extends Controller
         }
         dd($destroy);
     }
+
+    public function storecomment(Request $request){
+        // dd($request);
+        AnswerComment::create($request->all());
+        return redirect('/question/'.$request->question_id);
+        
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\AnswerComment  $answercomment
+     * @return \Illuminate\Http\Response
+     */
+    public function updatecomment(Request $request, AnswerComment $answercomment)
+    {
+        // dd($request->all());
+        AnswerComment::where('id',$answercomment->id)
+                    ->update([
+                        'komentar'=>$request->komentar,
+                    ]);
+        return redirect('/question/'.$request->question_id);
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\AnswerComment  $answercomment
+     * @return \Illuminate\Http\Response
+     */
+    public function destroycomment(AnswerComment $answercomment)
+    {
+        // dd($answercomment);
+        AnswerComment::destroy($answercomment->id);
+        return redirect('/question/'.$answercomment->question_id);
+    }
+
 }

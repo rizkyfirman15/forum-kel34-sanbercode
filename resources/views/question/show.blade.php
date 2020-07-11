@@ -3,7 +3,7 @@
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 @endpush
 @section('content')
-<h1 class="h3 mb-4 text-gray-800">Judul Pertanyaan</h1>
+<h1 class="h3 mb-4 text-gray-800">{{$question->judul}}</h1>
 
 <div class="container mb-4">
     <center>
@@ -24,9 +24,6 @@
                 </div>
             </div>
             <div class="card-body" style=" text-align: left!important;">
-                <a class="card-link" href="question/{{$question->id}}">
-                    <h5 class="card-title">{{$question->judul}}</h5>
-                </a>
                 <p class="card-text">
                     {!!$question->isi_pertanyaan!!}
                 </p>
@@ -89,10 +86,11 @@
                                     @csrf
                                     <input type="hidden"name="question_id" value="{{$question->id}}">
                                     <input type="hidden"name="user_id" value="{{Auth::user()->id}}">
+                                    <input type="hidden"name="vote" value="0">
                                     <div class="form-group">
                                         <label for="comment">Komentar</label>
                                         <!-- <textarea class="form-control" name="isi" placeholder="Tuliskan pertanyaan anda di sini !"rows="5" id="isi"></textarea> -->
-                                        <textarea name="isi" class="form-control my-editor">{!! old('isi', $isi ?? '') !!}</textarea>
+                                        <textarea name="komentar" class="form-control my-editor">{!! old('isi', $isi ?? '') !!}</textarea>
                                     </div>
 
                             </div>
@@ -112,16 +110,22 @@
                 <!-- comment -->
                 <div class="card w-75 mt-2" style="text-align:left;">
             <div class="card-header mb-0 mt-0 pb-0 pt-0">
+                @if ($comment->user_id==Auth::user()->id)
+                    <!-- Dropdown -->
                 <div class="dropdown" style="text-align:right;">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-ellipsis-h"></i></button>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
                         <div class="h6 dropdown-header">Aksi</div>
                         <!-- Button modal edit komentar pertanyaan -->
-                        <a class="dropdown-item" data-toggle="modal" data-target="#editkomentarpertanyaan1" href="#">Edit</a>
-                        <a class="dropdown-item" href="#">Delete</a>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#editkomentarpertanyaan{{$comment->id}}" href="#">Edit</a>
+                        <form action="/question-comment/{{$comment->id}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-link dropdown-item" role="button">Hapus</button>
+                            </form>
                     </div>
                     <!-- Modal Edit Komentar pertanyaan-->
-                    <div class="modal fade" style="text-align:center;" id="editkomentarpertanyaan1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" style="text-align:center;" id="editkomentarpertanyaan{{$comment->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -131,12 +135,16 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="/question/1" method='POST'>
+                                    <form action="/question-comment/{{$comment->id}}" method='POST'>
                                         @csrf
+                                        @method('put')
+                                        <input type="hidden"name="question_id" value="{{$comment->question_id}}">
+                                        <input type="hidden"name="user_id" value="{{Auth::user()->id}}">
+                                        <input type="hidden"name="vote" value="0">
                                         <div class="form-group">
                                             <label for="comment">Komentar</label>
                                             <!-- <textarea class="form-control" name="isi" placeholder="Tuliskan pertanyaan anda di sini !"rows="5" id="isi"></textarea> -->
-                                            <textarea name="isi" class="form-control my-editor">{!! old('isi', $isi ?? '') !!}</textarea>
+                                            <textarea name="komentar" class="form-control my-editor">{!! old('isi', $isi ?? '') !!} {!!$comment->komentar!!}</textarea>
                                         </div>
                                 </div>
                                 <div class="modal-footer">
@@ -149,10 +157,13 @@
                     </div>
                     <!-- Tutup Modal -->
                 </div>
+                <!-- Dropdown -->
+                @else
+                @endif
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{$comment->user->name}}</h5>
-                <p class="card-text">{{$comment->komentar}}</p>
+                <p class="card-text">{!!$comment->komentar!!}</p>
                 <!--Button modal  -->
                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#balaskomentarpertanyaan1">
                     <i class="fa fa-reply"> Balas</i>

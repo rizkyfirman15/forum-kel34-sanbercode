@@ -9,6 +9,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/question/{question}','QuestionController@update');
     Route::get('/question/{question}', 'QuestionController@show');
     Route::delete('/question/{question}','QuestionController@destroy');
+    Route::post('/question-comment', 'QuestionController@storecomment');
+    Route::put('/question-comment/{answercomment}','QuestionController@updatecomment');
+    Route::delete('/question-comment/{answercomment}','QuestionController@destroycomment');
 
 });
 /*
